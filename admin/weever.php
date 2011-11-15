@@ -5,7 +5,7 @@
 *	(c) 2010-2011 Weever Apps Inc. <http://www.weeverapps.com/>
 *
 *	Author: 	Robert Gerald Porter (rob.porter@weever.ca)
-*	Version: 	1.0
+*	Version: 	1.1
 *   License: 	GPL v3.0
 *
 *   This extension is free software: you can redistribute it and/or modify
@@ -70,9 +70,29 @@ switch(JRequest::getWord('task'))
 	case 'config':
 	case 'theme':
 	case 'account':
-		
+				
 		
 		JToolBarHelper::title( '&nbsp;', $weeverIcon);
+		
+		$u_agent = $_SERVER['HTTP_USER_AGENT'];
+		if (preg_match('/webkit/i', $u_agent)) {	
+			$row->load(4); $keySiteDomain = $row->setting;
+			if($staging)
+			{
+				$weeverServer = comWeeverConst::LIVE_STAGE;
+			}
+			else
+			{
+				$weeverServer = comWeeverConst::LIVE_SERVER;
+			}		
+			$url = $weeverServer.'app/'.$keySiteDomain;		
+			$bar = JToolBar::getInstance('toolbar');
+			$bar->appendButton('Popup', 'preview', 'Preview your app', $url, 320, 480);
+		} else {				
+			$bar = JToolBar::getInstance('toolbar');
+			$bar->appendButton( 'Standard', 'preview', 'Preview your app', 'webkitrequired', false, false);
+		}
+		
 		JToolBarHelper::save();
 
 		
@@ -91,9 +111,34 @@ switch(JRequest::getWord('task'))
 			JToolBarHelper::cancel();
 		}
 
-		break;
+		break;	
+	case 'webkitrequired':
+		JError::raiseNotice(100, JText::_('WEEVER_NOTICE_WEBKIT_REQUIRED'));		
 		
-
+		
+		JToolBarHelper::title( '&nbsp;', $weeverIcon);
+		
+		$u_agent = $_SERVER['HTTP_USER_AGENT'];
+		if (preg_match('/webkit/i', $u_agent)) {	
+			$row->load(4); $keySiteDomain = $row->setting;
+			if($staging)
+			{
+				$weeverServer = comWeeverConst::LIVE_STAGE;
+			}
+			else
+			{
+				$weeverServer = comWeeverConst::LIVE_SERVER;
+			}		
+			$url = $weeverServer.'app/'.$keySiteDomain;		
+			$bar = JToolBar::getInstance('toolbar');
+			$bar->appendButton('Popup', 'preview', 'Preview your app', $url, 320, 480);
+		} else {				
+			$bar = JToolBar::getInstance('toolbar');
+			$bar->appendButton( 'Standard', 'preview', 'Preview your app', 'webkitrequired', false, false);
+		}
+		
+		JToolBarHelper::save();
+		break;
 	default:
 		
 
