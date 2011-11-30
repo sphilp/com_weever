@@ -4,7 +4,7 @@
 *	(c) 2010-2011 Weever Apps Inc. <http://www.weeverapps.com/>
 *
 *	Author: 	Robert Gerald Porter (rob.porter@weever.ca)
-*	Version: 	0.9.2
+*	Version: 	1.2.3
 *   License: 	GPL v3.0
 *
 *   This extension is free software: you can redistribute it and/or modify
@@ -33,13 +33,17 @@ class WeeverViewConfig extends JView
 	
 		$layout = JRequest::getWord('layout');
 		$component = JComponentHelper::getComponent( 'com_weever' );
+		
+		$appData = $this->get('appdata');
+		
+		$this->assignRef('tier', $appData->config->tier);
 
 		$row =& JTable::getInstance('WeeverConfig', 'Table');
 		
 		$row->load(6);
 		$this->assign('appEnabled', $row->setting);
 
-		for($i = 1; $i <= 11; $i++)
+		for($i = 1; $i <= 12; $i++)
 		{
 		
 			$row->load($i);
@@ -105,6 +109,7 @@ class WeeverViewConfig extends JView
 		JSubMenuHelper::addEntry(JText::_('WEEVER_THEMING'), 'index.php?option=com_weever&view=theme&task=theme', false);
 		JSubMenuHelper::addEntry(JText::_('WEEVER_CONFIGURATION'), 'index.php?option=com_weever&view=config&task=config', true);
 		JSubMenuHelper::addEntry(JText::_('WEEVER_ACCOUNT'), 'index.php?option=com_weever&view=account&task=account', false);
+		JSubMenuHelper::addEntry(JText::_('WEEVER_SUPPORT_TAB'), 'index.php?option=com_weever&view=support&task=support', false);
 
 		
 		parent::display($tpl);

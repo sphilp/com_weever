@@ -5,7 +5,7 @@
 *	(c) 2010-2011 Weever Apps Inc. <http://www.weeverapps.com/>
 *
 *	Author: 	Robert Gerald Porter (rob.porter@weever.ca)
-*	Version: 	1.1
+*	Version: 	1.2.2
 *   License: 	GPL v3.0
 *
 *   This extension is free software: you can redistribute it and/or modify
@@ -43,6 +43,15 @@ $row->load(7); $staging = $row->setting;
 comWeeverHelperJS::loadConfJS($staging);
 
 $document =& JFactory::getDocument();
+
+
+$cssFile = JURI::base(true).'/components/com_weever/assets/css/ui-lightness/jquery-ui.css';
+    $document->addStyleSheet($cssFile, 'text/css', null, array());
+
+$cssFile = JURI::base(true).'/components/com_weever/assets/css/jquery-impromptu.css';
+    $document->addStyleSheet($cssFile, 'text/css', null, array()); 
+
+
 $cssFile = JURI::base(true).'/components/com_weever/assets/css/weever.css?v='.comWeeverConst::VERSION;
 $document->addStyleSheet($cssFile, 'text/css', null, array());
 
@@ -56,102 +65,32 @@ if(!JPluginHelper::isEnabled('system', 'mobileesp'))
 if($staging)
 {
 	$weeverIcon = "weever_toolbar_title_staging";
-	$style = "#wx-app-status-button { display: none !important; }";
+	$style = "#wx-app-status-button { visibility:hidden !important; }";
 	$document->addStyleDeclaration($style);
 }
 else
 	$weeverIcon = "weever_toolbar_title";
 	
+JToolBarHelper::title( '&nbsp;', $weeverIcon);
 
-
-
-switch(JRequest::getWord('task'))
-{
-	case 'config':
-	case 'theme':
-	case 'account':
-				
-		
-		JToolBarHelper::title( '&nbsp;', $weeverIcon);
-		
-		$u_agent = $_SERVER['HTTP_USER_AGENT'];
-		if (preg_match('/webkit/i', $u_agent)) {	
-			$row->load(4); $keySiteDomain = $row->setting;
-			if($staging)
-			{
-				$weeverServer = comWeeverConst::LIVE_STAGE;
-			}
-			else
-			{
-				$weeverServer = comWeeverConst::LIVE_SERVER;
-			}		
-			$url = $weeverServer.'app/'.$keySiteDomain;		
-			$bar = JToolBar::getInstance('toolbar');
-			$bar->appendButton('Popup', 'preview', 'Preview your app', $url, 320, 480);
-		} else {				
-			$bar = JToolBar::getInstance('toolbar');
-			$bar->appendButton( 'Standard', 'preview', 'Preview your app', 'webkitrequired', false, false);
-		}
-		
-		JToolBarHelper::save();
-
-		
-		break;
-
-	case 'edit':
-	case 'add':
-		
-
-		JToolBarHelper::title('&nbsp;', $weeverIcon);
-		if(JRequest::getWord('layout',''))
-		{
-			
-			JToolBarHelper::save();
-			JToolBarHelper::apply();
-			JToolBarHelper::cancel();
-		}
-
-		break;	
-	case 'webkitrequired':
-		JError::raiseNotice(100, JText::_('WEEVER_NOTICE_WEBKIT_REQUIRED'));		
-		
-		
-		JToolBarHelper::title( '&nbsp;', $weeverIcon);
-		
-		$u_agent = $_SERVER['HTTP_USER_AGENT'];
-		if (preg_match('/webkit/i', $u_agent)) {	
-			$row->load(4); $keySiteDomain = $row->setting;
-			if($staging)
-			{
-				$weeverServer = comWeeverConst::LIVE_STAGE;
-			}
-			else
-			{
-				$weeverServer = comWeeverConst::LIVE_SERVER;
-			}		
-			$url = $weeverServer.'app/'.$keySiteDomain;		
-			$bar = JToolBar::getInstance('toolbar');
-			$bar->appendButton('Popup', 'preview', 'Preview your app', $url, 320, 480);
-		} else {				
-			$bar = JToolBar::getInstance('toolbar');
-			$bar->appendButton( 'Standard', 'preview', 'Preview your app', 'webkitrequired', false, false);
-		}
-		
-		JToolBarHelper::save();
-		break;
-	default:
-		
-
-		JToolBarHelper::title( '&nbsp;', $weeverIcon);
-		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
-		JToolBarHelper::deleteList(JText::_('WEEVER_DELETE_TAB_CONFIRM'));
-
-		
-		break;
-		
+$u_agent = $_SERVER['HTTP_USER_AGENT'];
+if (preg_match('/webkit/i', $u_agent)) {	
+	$row->load(4); $keySiteDomain = $row->setting;
+	if($staging)
+	{
+		$weeverServer = comWeeverConst::LIVE_STAGE;
+	}
+	else
+	{
+		$weeverServer = comWeeverConst::LIVE_SERVER;
+	}		
+	$url = $weeverServer.'app/'.$keySiteDomain;		
+	$bar = JToolBar::getInstance('toolbar');
+	$bar->appendButton('Popup', 'preview', 'Preview your app', $url, 320, 480);
+} else {				
+	$bar = JToolBar::getInstance('toolbar');
+	$bar->appendButton( 'Standard', 'preview', 'Preview your app', 'webkitrequired', false, false);
 }
-
 
 jimport('joomla.application.component.controller');
 
@@ -167,10 +106,6 @@ $controller->redirect();
 
 $row->load(6);
 $status = $row->setting;
-
-// now has the button
-/*if($status == 0 && !$staging)
-	JError::raiseNotice(100, JText::_('WEEVER_NOTICE_APP_OFFLINE'));*/
 
 $row->load(3); $key = $row->setting;
 $row->load(4); $keySiteDomain = $row->setting;
@@ -198,41 +133,48 @@ if($key)
 	}
 
 	echo '
-	<div>
-        <div style="background:#fffff0;" class="wx-qr-app">
+	
+      
+    
+    
+    <fieldset class="adminForm" style="margin:1.5em;">
+    <legend>'.JText::_('WEEVER_QR_TEST_CODE').'</legend>
+
         <img src="http://'.$siteDomain.'/media/com_weever/qr_app_'.$modetype.'.png"  class="wx-qr-imgprev" />
-
-        <div class="wx-qr-textbox">
-
-        <span class="wx-qr-app-text">'.JText::_('WEEVER_QR_TEST_CODE').'</span>
-
         <p>'.JText::_('WEEVER_QR_SCAN_PRIVATE').'<br/>
-QR Link: '.JText::_('WEEVER_QR_DIRECT_ADDRESS').'<a href="'.$weeverServer.'app/'.$keySiteDomain.'">'.$weeverServer.'app/'.$keySiteDomain.'</a></p>
-
-<p>'.JText::_('WEEVER_QR_ADDITIONAL_TEST').'</p>
-
-
-</div></div>';
+        QR Link: '.JText::_('WEEVER_QR_DIRECT_ADDRESS').'<a href="'.$weeverServer.'app/'.$keySiteDomain.'">'.$weeverServer.'app/'.$keySiteDomain.'</a></p>
+        <p>'.JText::_('WEEVER_QR_ADDITIONAL_TEST').'</p>
+    
+	</fieldset>
+   
+	';
 	
 	if(!$staging)
-		echo '<div style="background: #ECF4E6;" class="wx-qr-app">
+		echo '<fieldset class="adminForm" style="margin:1.5em;">
+        			<legend style="background:#ECF4E6;">'.JText::_('WEEVER_QR_PUBLIC_CODE').'</legend>
 
                 <img src="http://'.$siteDomain.'/media/com_weever/qr_site_'.$modetype.'.png"  class= "wx-qr-imgprev"  />
 
-                <div class="wx-qr-textbox">
+        
 
-            <span class="wx-qr-app-text">'.JText::_('WEEVER_QR_PUBLIC_CODE').'</span>
+        
 
               <p>'.JText::_('WEEVER_QR_PUBLIC_CODE_SHARE').' <a href="'.$siteDomain.'">http://'.$siteDomain.'</a></p>
-<p>'.JText::_('WEEVER_QR_PUBLIC_CODE_SHARE_SUGGEST').'</p></div></div>';
+<p>'.JText::_('WEEVER_QR_PUBLIC_CODE_SHARE_SUGGEST').'</p>
+             </fieldset>';
 	else
-		echo '<div style="background:#ECF4E6;" class="wx-qr-app">'.JText::_('WEEVER_QR_STAGING_UNAVAILABLE').'</div>';
+		echo '<fieldset class="adminForm"  style="margin:1.5em;">
+        			<legend style="background:#ECF4E6;">'.JText::_('WEEVER_QR_PUBLIC_CODE').'</legend>
+<p>'.JText::_('WEEVER_QR_STAGING_UNAVAILABLE').'</p>
+    </fieldset>
+	
+	';
 	
 	echo '<div style="clear:both;"></div></div>';
 		
 }
 
 echo '<div style="text-align:center;clear:both; margin-top:24px;">'.comWeeverConst::NAME.' v'.comWeeverConst::VERSION.' '.comWeeverConst::RELEASE_TYPE.' "'.comWeeverConst::RELEASE_NAME.'" <br />'.
-	comWeeverConst::COPYRIGHT_YEAR.' <a target="_blank" href="'.comWeeverConst::COPYRIGHT_URL.'">'.comWeeverConst::COPYRIGHT.'</a><br />
+	comWeeverConst::COPYRIGHT_YEAR.' <a target="_blank" href="'.comWeeverConst::COPYRIGHT_URL.'">'.comWeeverConst::COPYRIGHT.'</a> 
 	Released '.comWeeverConst::RELEASE_DATE.' under <a target="_blank" href="'.comWeeverConst::LICENSE_URL.'">'.comWeeverConst::LICENSE.'</a>. 
-	<a target="_blank" href="http://weeverapps.zendesk.com/home">Contact Support</a></div>';
+	<a target="_blank" href="http://weeverapps.zendesk.com">Contact Support</a></div>';

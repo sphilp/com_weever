@@ -19,6 +19,7 @@
 */
 
 jQuery(function() {
+
 	jQuery("#listTabs").tabs( {
 		
 		select: function(e, ui) {
@@ -72,7 +73,44 @@ jQuery(function() {
 
 });
 
+
+
 jQuery(document).ready(function(){ 
+
+
+	jQuery('.wx-table-sort').sortable({
+	    cursor:     'move',
+	    axis:       'y',
+	    revert:  	true,
+	    forcePlaceholderSize: true,
+	    placeholder: 'group_move_placeholder',
+	    items: 'tr',
+	    update: function(e, ui) {
+	        jQuery(this).sortable("refresh");
+	        var siteKey = jQuery("input#wx-site-key").val();
+	        var str = String(jQuery(this).sortable('toArray'));
+	        
+	      	jQuery.ajax({
+	      	   type: "POST",
+	      	   url: "index.php",
+	      	   data: "option=com_weever&task=ajaxSaveTabOrder&site_key="+siteKey+"&order="+str,
+	      	   success: function(msg){
+	      	     jQuery('#wx-modal-loading-text').html(msg);
+	      	     
+	      	     if(msg == "Order Updated")
+	      	     	jQuery('#wx-modal-secondary-text').html(Joomla.JText._('WEEVER_JS_APP_UPDATED'));
+	      	     else
+	      	     {
+	      	     	jQuery('#wx-modal-secondary-text').html('');
+	      	     	jQuery('#wx-modal-error-text').html(Joomla.JText._('WEEVER_JS_SERVER_ERROR'));
+	      	     }
+	      	   }
+	      	 });
+	      	 
+	    }
+	});
+	
+	jQuery('.wx-table-sort').disableSelection();
 
 	//
 	
@@ -289,6 +327,7 @@ jQuery(document).ready(function(){
 		var txt = 	'<h3 class="wx-imp-h3">'+Joomla.JText._('WEEVER_JS_ENTER_NEW_APP_ICON_NAME')+'</h3>'+
 					'<input type="text" id="alertName" name="alertName" value="'+htmlName+'" />';
 		var clickedElem = jQuery(this);
+		
 					
 		myCallbackForm = function(v,m,f) {
 		
@@ -374,9 +413,10 @@ jQuery(document).ready(function(){
 			
 				tabName = f["alertName"];
 				
+				
 				jQuery.ajax({
 				   type: "POST",
-				   url: "http://weeverapp.com/index.php",
+				   url: "index.php",
 				   data: "option=com_weever&task=ajaxSaveTabName&name="+encodeURIComponent(tabName)+"&id="+tabId+'&site_key='+siteKey,
 				   success: function(msg){
 				     jQuery('#wx-modal-loading-text').html(msg);
@@ -574,10 +614,6 @@ jQuery(document).ready(function(){
 	
 	});
 	
-
-	
-	
-	
 	jQuery('select.wx-cms-feed-select').change(function(){
 	
         if(jQuery(this).val() != '' && jQuery('input#wx-blog-title').val() != ''){
@@ -588,8 +624,38 @@ jQuery(document).ready(function(){
            jQuery('#wx-page-submit').removeAttr('disabled');
         } else { jQuery('#wx-page-submit').attr('disabled', 'disabled'); }
         
+        if(jQuery(this).val() != ''){
+           jQuery('#wx-map-submit').removeAttr('disabled');
+        } else { jQuery('#wx-map-submit').attr('disabled', 'disabled'); }
+        
+        if(jQuery('input#wx-blog-title' == '')) {
+        	var thisText = jQuery("select[name=cms_feed] option:selected").text();
+        	jQuery('input#wx-blog-title').val(thisText);
+        	jQuery('#wx-blog-submit').removeAttr('disabled');
+        }
+        
+        if(jQuery('input#wx-directory-title' == '')) {
+        	var thisText = jQuery("select[name=cms_feed] option:selected").text();
+        	jQuery('input#wx-directory-title').val(thisText);
+        	jQuery('#wx-directory-submit').removeAttr('disabled');
+        }
+        
+        if(jQuery('input#wx-page-title' == '')) {
+        	var thisText = jQuery("select[name=cms_feed] option:selected").text();
+        	jQuery('input#wx-page-title').val(thisText);
+        	jQuery('#wx-page-submit').removeAttr('disabled');
+        }
+        
         jQuery('select.wx-cms-feed-select option[value="0"]').attr('disabled','disabled');
         
+	});
+	
+	jQuery('#wx-add-contact-joomla-select').change(function(){
+		
+		var thisText = jQuery("select#wx-add-contact-joomla-select option:selected").text();
+		jQuery('input#wx-contact-title').val(thisText);
+		jQuery('#wx-contact-submit').removeAttr('disabled');
+		
 	});
 	
 	jQuery('select.wx-component-id-select').change(function(){
@@ -623,6 +689,15 @@ jQuery(document).ready(function(){
 	    if(jQuery('input#id_name').val() != '' && jQuery('input#wx-panel-title').val() != ''){
 	       jQuery('#wx-panel-submit').removeAttr('disabled');
 	    } else { jQuery('#wx-panel-submit').attr('disabled', 'disabled'); }
+	    
+	});
+	
+	
+	jQuery('a.map-k2-modal').click(function(){
+	
+
+	       jQuery('#wx-map-submit').removeAttr('disabled');
+
 	    
 	});
 	
@@ -675,6 +750,24 @@ jQuery(document).ready(function(){
 		if(thisVal != "")
 			jQuery('#wx-blog-submit').removeAttr('disabled');
 	});
+	
+	jQuery('input#wx-add-map-k2-tag-input').keyup(function(){
+		
+		var thisVal = jQuery('input#wx-add-map-k2-tag-input').val();
+		
+		if(thisVal != "")
+			jQuery('#wx-map-submit').removeAttr('disabled');
+	});
+	
+	jQuery('input#wx-add-directory-k2-tag-input').keyup(function(){
+		
+		var thisVal = jQuery('input#wx-add-directory-k2-tag-input').val();
+		jQuery('input#wx-directory-title').val(thisVal);
+		
+		if(thisVal != "")
+			jQuery('#wx-directory-submit').removeAttr('disabled');
+	});
+	
 	
 
 });

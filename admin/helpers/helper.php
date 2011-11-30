@@ -4,7 +4,7 @@
 *	(c) 2010-2011 Weever Apps Inc. <http://www.weeverapps.com/>
 *
 *	Author: 	Robert Gerald Porter (rob.porter@weever.ca)
-*	Version: 	1.0
+*	Version: 	1.1.0.1
 *   License: 	GPL v3.0
 *
 *   This extension is free software: you can redistribute it and/or modify
@@ -19,12 +19,12 @@
 *
 */
 
-
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.helper');
-require_once (JPATH_COMPONENT.DS.'helpers'.DS.'theme'.'.php');
 jimport('joomla.plugin.helper');
+
+require_once (JPATH_COMPONENT.DS.'helpers'.DS.'theme'.'.php');
 
 class comWeeverHelper
 {
@@ -38,12 +38,21 @@ class comWeeverHelper
 		return $joomla;
 	
 	}
-
+	
+	
+	public static function componentExists($component)
+	{
+		
+		return JFolder::exists(JPATH_ADMINISTRATOR.DS.'components'.DS.$component);
+		
+	}
+	
 
 	public static function isJson($string)
 	{
 		return !empty($string) && is_string($string) && preg_match('/^("(\\.|[^"\\\n\r])*?"|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t])+?$/',$string);
 	}
+
 
 	public static function getSiteDomain()
 	{
@@ -78,6 +87,47 @@ class comWeeverHelper
 			jsJText::script('WEEVER_JS_CHANGING_NAV_ICONS');
 			jsJText::script('WEEVER_JS_CHANGING_NAV_ICONS_INSTRUCTIONS');
 			jsJText::script('WEEVER_JS_CHANGING_NAV_PASTE_CODE');
+			jsJText::script('WEEVER_CONFIG_ENABLED');
+			jsJText::script('WEEVER_CONFIG_DISABLED');
+			jsJText::script('WEEVER_JS_PANEL_TRANSITION_ANIMATIONS');
+			jsJText::script('WEEVER_JS_PANEL_TRANSITION_TOOLTIP');
+			jsJText::script('WEEVER_JS_PANEL_TRANSITION_TOGGLE');
+			jsJText::script('WEEVER_JS_PANEL_HEADERS_TOOLTIP');
+			jsJText::script('WEEVER_JS_PANEL_HEADERS');
+			jsJText::script('WEEVER_JS_ABOUTAPP_TRANSITION_ANIMATIONS');
+			jsJText::script('WEEVER_JS_ABOUTAPP_TRANSITION_TOOLTIP');
+			jsJText::script('WEEVER_JS_ABOUTAPP_TRANSITION_TOGGLE');
+			jsJText::script('WEEVER_JS_ABOUTAPP_HEADERS_TOOLTIP');
+			jsJText::script('WEEVER_JS_ABOUTAPP_HEADERS');
+			jsJText::script('WEEVER_JS_PANEL_TRANSITION_DURATION_TOOLTIP');
+			jsJText::script('WEEVER_JS_PANEL_TRANSITION_DURATION');
+			jsJText::script('WEEVER_JS_PANEL_TRANSITION_DURATION_SHORT');
+			jsJText::script('WEEVER_JS_PANEL_TRANSITION_DURATION_DEFAULT');
+			jsJText::script('WEEVER_JS_PANEL_TRANSITION_DURATION_LONG');
+			jsJText::script('WEEVER_JS_PANEL_TIMEOUT_TOOLTIP');
+			jsJText::script('WEEVER_JS_PANEL_TIMEOUT');
+			jsJText::script('WEEVER_JS_PANEL_TIMEOUT_SHORT');
+			jsJText::script('WEEVER_JS_PANEL_TIMEOUT_DEFAULT');
+			jsJText::script('WEEVER_JS_PANEL_TIMEOUT_LONG');
+			jsJText::script('WEEVER_JS_ABOUTAPP_TRANSITION_DURATION_TOOLTIP');
+			jsJText::script('WEEVER_JS_ABOUTAPP_TRANSITION_DURATION');
+			jsJText::script('WEEVER_JS_ABOUTAPP_TRANSITION_DURATION_SHORT');
+			jsJText::script('WEEVER_JS_ABOUTAPP_TRANSITION_DURATION_DEFAULT');
+			jsJText::script('WEEVER_JS_ABOUTAPP_TRANSITION_DURATION_LONG');
+			jsJText::script('WEEVER_JS_ABOUTAPP_TIMEOUT_TOOLTIP');
+			jsJText::script('WEEVER_JS_ABOUTAPP_TIMEOUT');
+			jsJText::script('WEEVER_JS_ABOUTAPP_TIMEOUT_SHORT');
+			jsJText::script('WEEVER_JS_ABOUTAPP_TIMEOUT_DEFAULT');
+			jsJText::script('WEEVER_JS_ABOUTAPP_TIMEOUT_LONG');
+			jsJText::script('WEEVER_JS_MAP_SETTINGS');
+			jsJText::script('WEEVER_JS_MAP_START_LATITUDE_TOOLTIP');
+			jsJText::script('WEEVER_JS_MAP_START_LATITUDE');
+			jsJText::script('WEEVER_JS_MAP_START_LONGITUDE_TOOLTIP');
+			jsJText::script('WEEVER_JS_MAP_START_LONGITUDE');
+			jsJText::script('WEEVER_JS_MAP_START_ZOOM_TOOLTIP');
+			jsJText::script('WEEVER_JS_MAP_START_ZOOM');
+			jsJText::script('WEEVER_JS_MAP_DEFAULT_MARKER_TOOLTIP');
+			jsJText::script('WEEVER_JS_MAP_DEFAULT_MARKER');
 			
 			jsJText::load();
 		
@@ -96,6 +146,47 @@ class comWeeverHelper
 			JText::script('WEEVER_JS_CHANGING_NAV_ICONS');
 			JText::script('WEEVER_JS_CHANGING_NAV_ICONS_INSTRUCTIONS');
 			JText::script('WEEVER_JS_CHANGING_NAV_PASTE_CODE');
+			JText::script('WEEVER_CONFIG_ENABLED');
+			JText::script('WEEVER_CONFIG_DISABLED');
+			JText::script('WEEVER_JS_PANEL_TRANSITION_ANIMATIONS');
+			JText::script('WEEVER_JS_PANEL_TRANSITION_TOOLTIP');
+			JText::script('WEEVER_JS_PANEL_TRANSITION_TOGGLE');
+			JText::script('WEEVER_JS_PANEL_HEADERS_TOOLTIP');
+			JText::script('WEEVER_JS_PANEL_HEADERS');
+			JText::script('WEEVER_JS_ABOUTAPP_TRANSITION_ANIMATIONS');
+			JText::script('WEEVER_JS_ABOUTAPP_TRANSITION_TOOLTIP');
+			JText::script('WEEVER_JS_ABOUTAPP_TRANSITION_TOGGLE');
+			JText::script('WEEVER_JS_ABOUTAPP_HEADERS_TOOLTIP');
+			JText::script('WEEVER_JS_ABOUTAPP_HEADERS');
+			JText::script('WEEVER_JS_PANEL_TRANSITION_DURATION_TOOLTIP');
+			JText::script('WEEVER_JS_PANEL_TRANSITION_DURATION');
+			JText::script('WEEVER_JS_PANEL_TRANSITION_DURATION_SHORT');
+			JText::script('WEEVER_JS_PANEL_TRANSITION_DURATION_DEFAULT');
+			JText::script('WEEVER_JS_PANEL_TRANSITION_DURATION_LONG');
+			JText::script('WEEVER_JS_PANEL_TIMEOUT_TOOLTIP');
+			JText::script('WEEVER_JS_PANEL_TIMEOUT');
+			JText::script('WEEVER_JS_PANEL_TIMEOUT_SHORT');
+			JText::script('WEEVER_JS_PANEL_TIMEOUT_DEFAULT');
+			JText::script('WEEVER_JS_PANEL_TIMEOUT_LONG');
+			JText::script('WEEVER_JS_ABOUTAPP_TRANSITION_DURATION_TOOLTIP');
+			JText::script('WEEVER_JS_ABOUTAPP_TRANSITION_DURATION');
+			JText::script('WEEVER_JS_ABOUTAPP_TRANSITION_DURATION_SHORT');
+			JText::script('WEEVER_JS_ABOUTAPP_TRANSITION_DURATION_DEFAULT');
+			JText::script('WEEVER_JS_ABOUTAPP_TRANSITION_DURATION_LONG');
+			JText::script('WEEVER_JS_ABOUTAPP_TIMEOUT_TOOLTIP');
+			JText::script('WEEVER_JS_ABOUTAPP_TIMEOUT');
+			JText::script('WEEVER_JS_ABOUTAPP_TIMEOUT_SHORT');
+			JText::script('WEEVER_JS_ABOUTAPP_TIMEOUT_DEFAULT');
+			JText::script('WEEVER_JS_ABOUTAPP_TIMEOUT_LONG');
+			JText::script('WEEVER_JS_MAP_SETTINGS');
+			JText::script('WEEVER_JS_MAP_START_LATITUDE_TOOLTIP');
+			JText::script('WEEVER_JS_MAP_START_LATITUDE');
+			JText::script('WEEVER_JS_MAP_START_LONGITUDE_TOOLTIP');
+			JText::script('WEEVER_JS_MAP_START_LONGITUDE');
+			JText::script('WEEVER_JS_MAP_START_ZOOM_TOOLTIP');
+			JText::script('WEEVER_JS_MAP_START_ZOOM');
+			JText::script('WEEVER_JS_MAP_DEFAULT_MARKER_TOOLTIP');
+			JText::script('WEEVER_JS_MAP_DEFAULT_MARKER');
 		
 		}
 
@@ -134,40 +225,77 @@ class comWeeverHelper
 		$row->setting = JRequest::getVar($row->option);		
 		$row->store();
 		
-		$row->load(100);
-		$themeObj = json_decode($row->setting);
+		$themeObj = new comWeeverThemeStylesObj;
 		
-		if(!$themeObj)
-			$themeObj = new comWeeverThemeStylesObj;
+		$themeObj->titlebarHtml = JRequest::getVar("titlebarHtml", "", "post","string",JREQUEST_ALLOWHTML);
+		$themeObj->css = JRequest::getVar("css");
+		$themeObj->titlebarSource = JRequest::getVar("titlebarSource");
+		$themeObj->template = JRequest::getVar("template");
+		$themeObj->useCssOverride = JRequest::getVar("useCssOverride");
 
-		foreach($themeObj as $k=>$v)
-		{
+		$launch = new launch_screen;
+		$launch->animation = JRequest::getVar("animation");
+		$launch->duration = JRequest::getVar("duration");
+		$launch->timeout = JRequest::getVar("timeout");
+		$launch->install_prompt = JRequest::getVar("install_prompt");
 		
-			if($k == "titlebarHtml")
-				$themeObj->$k = JRequest::getVar($k, "", "post","string",JREQUEST_ALLOWHTML);
-			else
-			{
-				if(!strstr($k, "Icon"))
-					$themeObj->$k = JRequest::getVar($k);
-			}
-		
-		}
+		$jsonLaunch = json_encode($launch);
 
 		$jsonTheme = json_encode($themeObj);
 
-		$response = comWeeverHelper::pushThemeToCloud($jsonTheme);
-
-		$db = &JFactory::getDBO();		
+		$response = comWeeverHelper::pushThemeToCloud($jsonTheme, $jsonLaunch);		
 		
-		$query = "		UPDATE	#__weever_config".
-				"		SET		setting = ".$db->Quote($jsonTheme)." ".
-				"		WHERE	`option` = ".$db->Quote("theme_params")." ";
+	}
+	
+	
+	public static function updateTabSettings()
+	{
+	
+		$type = JRequest::getVar("type");
 		
-		$db->setQuery($query);
-		$result = $db->loadObject();
-
-		return $msg;					
+		switch($type)
+		{
 		
+			case "map":
+			
+				$var = new map_settings;
+				$var->start = new map_start;
+				
+				$submittedVars = explode(",",JRequest::getVar("var"));
+				
+				$var->start->latitude = $submittedVars[0];
+				$var->start->longitude = $submittedVars[1];
+				$var->start->zoom = $submittedVars[2];
+				$var->marker = $submittedVars[3];
+				
+				$var_json = json_encode($var);
+			
+				break;
+				
+			case "panel": 
+			case "aboutapp":
+			
+				$var = new panel_settings;
+				$var->animation = new animation;
+				
+				$submittedVars = explode(",",JRequest::getVar("var"));
+				
+				
+				$var->animation->type = $submittedVars[0];
+				$var->animation->duration = $submittedVars[1];
+				$var->animation->timeout = $submittedVars[2];
+				$var->content_header = $submittedVars[3];
+			
+				$var_json = json_encode($var);
+			
+				break;
+		
+		}
+		
+		$response = comWeeverHelper::pushTabSettingsToCloud($var_json);
+	
+		return $response;
+	
 	}
 	
 	public static function saveThemeJson($json)
@@ -278,7 +406,7 @@ class comWeeverHelper
 		}
 		
 			 
-		for($i = 1; $i <= 11; $i++)
+		for($i = 1; $i <= 12; $i++)
 		{
 		
 			if($i == 2 || $i == 1 || $i == 6)
@@ -327,6 +455,8 @@ class comWeeverHelper
 	public static function fileUpload($var, $max, $filename, $msg = null)
 	{
 		
+		$msg = null;
+		
 		jimport('joomla.filesystem.file');
 
         $file = JRequest::getVar($var, null, 'files', 'array'); 
@@ -344,66 +474,43 @@ class comWeeverHelper
             $iterations = 0;
 
 
-            if ($file['type'] && $file['type'] == "image/png") 
+            if ($file['type'] && ($file['type'] == "image/png" || $file['type'] == "image/jpeg" ) ) 
             { 
+     			
+     			if (JFile::upload($src, $dest)) 
+     			{
+     			    $msg = JText::_('WEEVER_FILE_SAVE_AS').' '.$dest;
+     			} 
+     			else 
+     			{
+     			    return JError::raiseWarning(500, JText::_('WEEVER_ERROR_IN_UPLOAD'));
+     			}
      			
 	            if($var == 'icon_live' && ($width != 144 || $height != 144))
 	            {
-	            	return JError::raiseWarning(500,JText::_('WEEVER_ERROR_ICON_DIMENSIONS'));
-	            }
-	            
-	            if($var == 'icon_live')
-	            {
-	            	  comWeeverHelper::makeLowResPng($file['tmp_name'], 72, 72, 'icon');
+	            	return JError::raiseNotice(100,JText::_('WEEVER_ERROR_ICON_DIMENSIONS'));
 	            }
 	
 				if($var == 'phone_load_live' && (($width != 640 || $height != 920) && ($width != 920 || $height != 640)))
 				{
-					return JError::raiseWarning(500,JText::_('WEEVER_ERROR_PHONE_DIMENSIONS'));
-				}
-				
-				if($var == 'phone_load_live')
-				{
-					if($width == 640)
-						comWeeverHelper::makeLowResPng($file['tmp_name'], 320, 460, 'phone_load');
-					else
-						comWeeverHelper::makeLowResPng($file['tmp_name'], 460, 320, 'phone_load');
-						
+					return JError::raiseNotice(100,JText::_('WEEVER_ERROR_PHONE_DIMENSIONS'));
 				}
 				
 				if($var == 'tablet_load_live' && ($width != 1536 || $height != 2008))
 				{
-					return JError::raiseWarning(500, JText::_('WEEVER_ERROR_TABLET_DIMENSIONS'));
+					return JError::raiseNotice(100, JText::_('WEEVER_ERROR_TABLET_DIMENSIONS'));
 				}
 				
-				if($var == 'tablet_load_live')
-				{					  
-					  comWeeverHelper::makeLowResPng($file['tmp_name'], 768, 1004, 'tablet_load');		  	
-				}
-				
-				if($var == 'tablet_lansdscape_load_live' && ($width != 1496|| $height != 2048))
+				if($var == 'tablet_landscape_load_live' && ($width != 1496|| $height != 2048))
 				{
-					return JError::raiseWarning(500, JText::_('WEEVER_ERROR_LANDSCAPE_TABLET_DIMENSIONS'));
-				}
-				
-				if($var == 'tablet_landscape_load_live')
-				{
-					  comWeeverHelper::makeLowResPng($file['tmp_name'], 748, 1024, 'tablet_landscape_load');	             					  	
+					return JError::raiseNotice(100, JText::_('WEEVER_ERROR_LANDSCAPE_TABLET_DIMENSIONS'));
 				}
 
 				if($var == 'titlebar_logo_live' && ($width != 600 || $height != 64))
 				{
-					return JError::raiseWarning(500, JText::_('WEEVER_ERROR_TITLEBAR_DIMENSIONS'));
-				}
-
-	            if (JFile::upload($src, $dest)) 
-	            {
-	                $msg = JText::_('WEEVER_FILE_SAVE_AS').' '.$dest;
-	            } 
-	            else 
-	            {
-	                return JError::raiseWarning(500, JText::_('WEEVER_ERROR_IN_UPLOAD'));
-	            }
+					return JError::raiseNotice(100, JText::_('WEEVER_ERROR_TITLEBAR_DIMENSIONS'));
+				}	            
+	            
             } 
             else if ($file['type'])
             {
@@ -415,38 +522,7 @@ class comWeeverHelper
         
         return $msg;
 	}
-
-
-	function makeLowResPng($originalImage,$toWidth,$toHeight,$newFilename)
-	{
 	
-		
-	    list($width, $height) = getimagesize($originalImage);
-	    $xscale=$width/$toWidth;
-	    $yscale=$height/$toHeight;
-	
-	    if ($yscale>$xscale){
-	        $new_width = round($width * (1/$yscale));
-	        $new_height = round($height * (1/$yscale));
-	    }
-	    else {
-	        $new_width = round($width * (1/$xscale));
-	        $new_height = round($height * (1/$xscale));
-	    }
-	   
-	    $imageTmp     = imagecreatefrompng($originalImage);
-
-	    imagejpeg($imageTmp, JPATH_SITE . DS .  'media' . DS . 'com_weever' . DS. $newFilename.'_live.jpg', 95);
-
-	    $imageResized = imagecreatetruecolor($new_width, $new_height);
-	    imagecopyresampled($imageResized, $imageTmp, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-	
-		imagepng($imageResized, JPATH_SITE . DS .  'media' . DS . 'com_weever' . DS. $newFilename.'_low.png');
-		imagejpeg($imageResized, JPATH_SITE . DS .  'media' . DS . 'com_weever' . DS. $newFilename.'_low.jpg');
-		
-	    return $imageResized;
-	  
-	} 
 
 	public static function tabSync($stage=null)
 	{
@@ -542,42 +618,9 @@ class comWeeverHelper
 		foreach((array)$orderArray as $k=>$v)
 		{
 			$v = str_replace("TabID","",$v);	
-			$reorderType[$v] = $k;	
+			$reorder[] = $v;
 		}
 	
-		$db = &JFactory::getDBO();	
-
-	    $query = " 		SELECT 	ordering, id, component ".
-	    		"		FROM	#__weever_tabs ".
-	    		"		WHERE	type = 'tab' ORDER BY ordering ASC ";
-		
-		$db->setQuery($query);
-		$orders = $db->loadObjectList();
-		
-		$kk = 0;
-		$reorder = array();
-
-		foreach((array)$orders as $k=>$v)
-		{
-
-			$reorder[ $reorderType[$v->component] ] = $v->id;	
-		
-		}
-		
-		foreach((array)$reorder as $k=>$v)
-		{
-
-			$query = "	UPDATE #__weever_tabs ".
-					"	SET ordering = ".$db->Quote($k)." ".
-					"	WHERE	id = ".$db->Quote($v)." ";
-
-
-					
-			$db->setQuery($query);
-			@$db->loadObject();
-		
-		}
-		
 		$reordering = json_encode($reorder);
 		
 		JRequest::setVar('reordering', $reordering);	
@@ -587,139 +630,6 @@ class comWeeverHelper
 		return $response;	
 	
 	}
-
-	
-	public static function sortSubtabs($type, $id, $dir)
-	{
-	
-		$db = &JFactory::getDBO();	
-
-	    $query = " 		SELECT 	ordering, id ".
-	    		"		FROM	#__weever_tabs ".
-	    		"		WHERE	type = ".$db->Quote($type)." ORDER BY ordering ASC ";
-
-
-		
-		$db->setQuery($query);
-		$orders = $db->loadObjectList();
-		$reorder = array();
-		
-		$kk = 0;
-		$nextReorder = null;
-		$lastId = null;
-
-		foreach((array)$orders as $k=>$v)
-		{
-			
-			$kk++;
-			
-			if($nextReorder)
-			{
-			
-				$reorder[$kk - 1] = $v->id;
-				$reorder[$kk] = $nextReorder;
-				
-				$nextReorder = null;
-			
-			}
-			
-			if($v->id == $id && $dir == "up" && $kk != 1)
-			{
-			
-				$reorder[$kk] = $reorder[$kk - 1];
-				$reorder[$kk - 1] = $v->id;
-			
-			}
-			
-			if($v->id == $id && $dir == "down")
-			{
-			
-				$nextReorder = $v->id;
-			
-			}
-
-			if(!$reorder[$kk] && !$nextReorder)
-			{
-				$reorder[$kk] = $v->id;
-			}
-			
-			$lastId = $v->id;
-		
-		}
-		
-		if($nextReorder)
-		{
-			$reorder[$kk] = $v->id;		
-		}
-		
-		$kk = 0;
-		
-		foreach((array)$reorder as $k=>$v)
-		{
-
-			$query = "	UPDATE #__weever_tabs ".
-					"	SET ordering = ".$db->Quote($k)." ".
-					"	WHERE	id = ".$db->Quote($v)." ";
-
-
-					
-			$db->setQuery($query);
-			@$db->loadObject();
-		
-		}
-		
-		$reordering = json_encode($reorder);
-		
-		JRequest::setVar('reordering', $reordering);	
-		
-		$response = comWeeverHelper::pushReorderToCloud();
-		
-		return $response;	
-	
-	}
-	
-	
-	//deprecated?
-	public static function reorderTabs($type)
-	{
-	
-		$db = &JFactory::getDBO();	
-
-	    $query = " 		SELECT 	ordering, id ".
-	    		"		FROM	#__weever_tabs ".
-	    		"		WHERE	type = ".$db->Quote($type)." ORDER BY ordering ASC ";
-
-
-		
-		$db->setQuery($query);
-		$orders = $db->loadObjectList();
-		$reorder = array();
-
-		foreach((array)$orders as $k=>$v)
-		{
-
-			$kk = $k+1;
-			$query = "	UPDATE #__weever_tabs ".
-					"	SET ordering = ".$db->Quote($kk)." ".
-					"	WHERE	id = ".$db->Quote($v->id)." ";
-
-					
-			$db->setQuery($query);
-			$result = $db->loadObject();
-
-			$reorder[$kk] = $v->id;
-		
-		}
-		
-		$reordering = json_encode($reorder);
-		echo $reordering;
-		
-		JRequest::setVar('reordering', $reordering);	
-		
-		comWeeverHelper::pushReorderToCloud();
-				
-	}
-	
 
 
 	public static function getJsonTabSync()
@@ -759,7 +669,114 @@ class comWeeverHelper
 		$json = comWeeverHelper::sendToWeeverServer($postdata);
 
 		if($json == "Site key missing or invalid.")
-			 JError::raiseError(500, JText::_('WEEVER_ERROR_BAD_SITE_KEY'));
+		{
+			 JError::raiseNotice(100, JText::_('WEEVER_NOTICE_NO_SITEKEY'));
+			 return false;
+		}
+		
+		$j_array = json_decode($json);
+		
+		return $j_array->results;	
+	
+	}
+	
+	
+	public static function getJsonThemeSync($all = null)
+	{
+	
+		$row =& JTable::getInstance('WeeverConfig', 'Table');
+		$row->load(7);
+		$staging = $row->setting;
+		
+		if($staging)
+		{
+			$weeverServer = comWeeverConst::LIVE_STAGE;
+			$stageUrl = comWeeverHelper::getSiteDomain();
+		}
+		else
+		{
+			$weeverServer = comWeeverConst::LIVE_SERVER;
+			$stageUrl = '';
+		}
+			
+		$url = $weeverServer;
+		$row->load(3);
+		$key = $row->setting;
+		
+		$postdata = http_build_query(
+			array( 	
+				'stage' => $stageUrl,
+				'app' => 'json',
+				'site_key' => $key,
+				'm' => "theme_sync",
+				'version' => comWeeverConst::VERSION,
+				'generator' => comWeeverConst::NAME,
+				'cms' => 'joomla'
+				)
+			);
+			
+		
+		$json = comWeeverHelper::sendToWeeverServer($postdata);
+
+		if($json == "Site key missing or invalid.")
+		{
+			 JError::raiseNotice(100, JText::_('WEEVER_NOTICE_NO_SITEKEY'));
+			 return false;
+		}
+		
+		$j_array = json_decode($json);
+		
+		if($all)
+			return $j_array;
+		else 
+			return $j_array->results;	
+	
+	}
+
+
+
+	public static function getJsonAccountSync()
+	{
+	
+		$row =& JTable::getInstance('WeeverConfig', 'Table');
+		$row->load(7);
+		$staging = $row->setting;
+		
+		if($staging)
+		{
+			$weeverServer = comWeeverConst::LIVE_STAGE;
+			$stageUrl = comWeeverHelper::getSiteDomain();
+		}
+		else
+		{
+			$weeverServer = comWeeverConst::LIVE_SERVER;
+			$stageUrl = '';
+		}
+			
+		$url = $weeverServer;
+		$row->load(3);
+		$key = $row->setting;
+		
+		$postdata = http_build_query(
+			array( 	
+				'stage' => $stageUrl,
+				'app' => 'json',
+				'site_key' => $key,
+				'm' => "account_sync",
+				'version' => comWeeverConst::VERSION,
+				'generator' => comWeeverConst::NAME,
+				'cms' => 'joomla'
+				)
+			);
+			
+		
+		$json = comWeeverHelper::sendToWeeverServer($postdata);
+
+		if($json == "Site key missing or invalid.")
+		{
+			 JError::raiseNotice(100, JText::_('WEEVER_NOTICE_NO_SITEKEY'));
+			 return false;
+		}
 		
 		$j_array = json_decode($json);
 		
@@ -768,7 +785,6 @@ class comWeeverHelper
 	}
 	
 
-	
 
 	public static function sendToWeeverServerCurl($context)
 	{
@@ -783,16 +799,24 @@ class comWeeverHelper
 			
 		$url = $weeverServer."index.php";
 		
-		$ch = curl_init();
+		$ch = curl_init($url);
 		
-		curl_setopt($ch,CURLOPT_URL,$url);
-		curl_setopt($ch,CURLOPT_POST,1);
+		curl_setopt($ch,CURLOPT_POST,true);
 		curl_setopt($ch,CURLOPT_POSTFIELDS,$context);
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
 
-		$result = curl_exec($ch);
+		$response = curl_exec($ch);
+		$error = curl_error($ch);
 
 		curl_close($ch);
+        
+        if ($error != "")
+        {
+            $result = $error;
+            return $result;
+        }
+       
+        $result = $response;
 		
 		return $result;
 
@@ -801,20 +825,20 @@ class comWeeverHelper
 	public static function sendToWeeverServer($postdata)
 	{
 
-		if(ini_get('allow_url_fopen') != 1) 
-		{
 		
-			if  (in_array('curl', get_loaded_extensions()))
-			{
-				$context = $postdata;
-				$response = comWeeverHelper::sendToWeeverServerCurl($context);
-			}
+		if(in_array('curl', get_loaded_extensions()))
+		{
+			$context = $postdata;
+			$response = comWeeverHelper::sendToWeeverServerCurl($context);
 		}
-		else
+		elseif(ini_get('allow_url_fopen') == 1)
 		{
 			$context = comWeeverHelper::buildPostDataContext($postdata);
 			$response = comWeeverHelper::sendToWeeverServerFOpen($context);
-
+		}
+		else 
+		{
+			$response = JText::_('WEEVER_ERROR_NO_CURL_OR_FOPEN');
 		}
 
 		return $response;
@@ -860,6 +884,26 @@ class comWeeverHelper
 	
 	}
 	
+	public static function pushSubtabReorderToCloud()
+	{
+
+		$postdata = http_build_query(
+			array( 	
+				'id' => JRequest::getVar('id'),
+				'reordering' => 'subtab',
+				'type' => JRequest::getVar('type'),
+				'dir' => JRequest::getVar('dir'),
+				'app' => 'ajax',
+				'site_key' => JRequest::getVar('site_key'),
+				'm' => "update_order",
+				'version' => comWeeverConst::VERSION,
+				'generator' => comWeeverConst::NAME
+				)
+			);
+		
+		return  comWeeverHelper::sendToWeeverServer($postdata);
+
+	}
 	
 
 	public static function pushReorderToCloud()
@@ -872,13 +916,37 @@ class comWeeverHelper
 				'site_key' => JRequest::getVar('site_key'),
 				'm' => "update_order",
 				'version' => comWeeverConst::VERSION,
-				'generator' => comWeeverConst::NAME
+				'generator' => comWeeverConst::NAME,
+				'cms' => 'joomla'
 				)
 			);
 		
 		return  comWeeverHelper::sendToWeeverServer($postdata);
 
 	}
+	
+
+	public static function pushTabSettingsToCloud($var)
+	{
+	
+		$postdata = http_build_query(
+			array( 	
+				'var' => $var,
+				'site_key' => JRequest::getVar('site_key'),
+				'id' => JRequest::getVar('id'),
+				'type' => JRequest::getVar('type'),
+				'app' => 'ajax',
+				'm' => "update_tab_settings",
+				'version' => comWeeverConst::VERSION,
+				'generator' => comWeeverConst::NAME
+				)
+			);
+		
+		return comWeeverHelper::sendToWeeverServer($postdata);
+
+	}
+	
+	
 	
 	public static function pushTabNameToCloud()
 	{
@@ -918,15 +986,17 @@ class comWeeverHelper
 		return comWeeverHelper::sendToWeeverServer($postdata);
 	}
 	
-	public static function pushThemeToCloud($jsonTheme)
+	public static function pushThemeToCloud($jsonTheme, $jsonLaunch)
 	{
 	
 		$postdata = http_build_query(
 			array( 	
 				'theme' => $jsonTheme,
+				'launch' => $jsonLaunch,
 				'site_key' => JRequest::getVar('site_key'),
 				'app' => 'ajax',
-				'title' => JRequest::getVar('titlebar_title'),
+				'titlebar_title' => JRequest::getVar('titlebar_title'),
+				'title' => JRequest::getVar('title'),
 				'm' => "edit_theme",
 				'cms' => 'joomla',
 				'version' => comWeeverConst::VERSION,
@@ -1002,7 +1072,7 @@ class comWeeverHelper
 				'rss' => JRequest::getVar('rss'),
 				'type' => JRequest::getVar('type'),
 				'component_behaviour' => JRequest::getVar('component_behaviour'),
-				'var' => JRequest::getVar('var'),
+				'var' => JRequest::getVar('var',"", "post","string",JREQUEST_ALLOWRAW),
 				'site_key' => JRequest::getVar('site_key'),
 				'cms_feed' => JRequest::getVar('cms_feed'),
 				'app' => 'ajax',
@@ -1028,7 +1098,8 @@ class comWeeverHelper
 				'site_key' => JRequest::getVar('site_key'),
 				'cloud_tab_id' => $cid,
 				'version' => comWeeverConst::VERSION,
-				'generator' => comWeeverConst::NAME
+				'generator' => comWeeverConst::NAME,
+				'cms' => 'joomla'
 				)
 			);
 			
@@ -1047,26 +1118,8 @@ class comWeeverHelper
 				'm' => 'delete_tab',
 				'site_key' => JRequest::getVar('site_key'),
 				'version' => comWeeverConst::VERSION,
-				'generator' => comWeeverConst::NAME
-				)
-			);
-		
-		return comWeeverHelper::sendToWeeverServer($postdata);
-	
-	}
-		
-	public static function pushLocalIdToCloud($id, $hash, $site_key)
-	{
-	
-		$postdata = http_build_query(
-			array(
-				'local_tab_id' => $id,
-				'hash' => $hash,
-				'app' => 'ajax',
-				'm' => 'tab_local_id',
-				'site_key' => $site_key,
-				'version' => comWeeverConst::VERSION,
-				'generator' => comWeeverConst::NAME
+				'generator' => comWeeverConst::NAME,
+				'cms' => 'joomla'
 				)
 			);
 		
@@ -1118,6 +1171,35 @@ class comWeeverHelper
 
 		return $query;
 		
+	}
+	
+	public static function _buildMapFeedURL() 
+	{
+	
+		$tag = JRequest::getVar('tag');
+	
+		if($tag != "undefined")
+		{
+			JRequest::setVar('cms_feed', 'index.php?option=com_k2&view=itemlist&task=tag&layout=blog&tag='.urlencode($tag).'&template=weever_cartographer');
+		}
+			
+		return true;
+	
+	}
+	
+	
+	public static function _buildDirectoryFeedURL() 
+	{
+	
+		$tag = JRequest::getVar('tag');
+	
+		if($tag != "undefined")
+		{
+			JRequest::setVar('cms_feed', 'index.php?option=com_k2&view=itemlist&task=tag&layout=blog&tag='.urlencode($tag).'&template=weever_cartographer');
+		}
+			
+		return true;
+	
 	}
 	
 	
@@ -1188,26 +1270,29 @@ class comWeeverHelper
 			$json->address = $contact->address;
 			$json->town = $contact->suburb;
 			$json->state = $contact->state;
-			$json->country = $contact->country;			
+			$json->country = $contact->country;
+			$json->googlemaps = JRequest::getVar('googlemaps', 0);
 			$json->image = $contact->image;
+			$json->misc = $contact->misc;
 			
-			$json->showimage = JRequest::getVar('showimage', 0);
-			if($json->showimage == "0")
-				$json->showimage = 0;
+			// destringify our options
 			
-			$json->googlemaps = JRequest::getVar('googlemaps', 0);			
 			if($json->googlemaps == "0")
 				$json->googlemaps = 0;
 				
-			$json->emailform = JRequest::getVar('emailform', 0);			
+			$json->emailform = JRequest::getVar('emailform', 0);
+			
 			if($json->emailform == "0")
 				$json->emailform = 0;
 			
 			$json = json_encode($json);
 			
-			JRequest::setVar('var', $json);			
-		}		
-		return null;	
+			JRequest::setVar('var', $json);
+			
+		}
+		
+		return null;		
+	
 	}
 	
 
@@ -1218,6 +1303,7 @@ class comWeeverHelper
 
 class contact_json
 {
+
 	public 	$telephone;
 	public 	$email_to;	
 	public 	$name;
@@ -1227,6 +1313,50 @@ class contact_json
 	public 	$country;
 	public  $emailform;
 	public 	$googlemaps;
-	public 	$image;
-	public 	$showimage;
+	public	$image;
+	public 	$misc;
+
+}
+
+class map_settings
+{
+
+	public $start;
+	public $marker;
+
+}
+
+class map_start
+{
+
+	public $latitude;
+	public $longitude;
+	public $zoom;
+
+}
+
+class panel_settings
+{
+
+	public $animation;
+	public $content_header;
+
+}
+
+class animation
+{
+
+	public $type;
+	public $duration;
+	
+}
+
+class launch_screen
+{
+
+	public $animation;
+	public $duration;
+	public $install_prompt;
+	public $timeout;
+
 }

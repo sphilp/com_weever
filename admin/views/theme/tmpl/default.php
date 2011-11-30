@@ -5,7 +5,7 @@
 *	(c) 2010-2011 Weever Apps Inc. <http://www.weeverapps.com/>
 *
 *	Author: 	Robert Gerald Porter (rob.porter@weever.ca)
-*	Version: 	1.0
+*	Version: 	1.2.2
 *   License: 	GPL v3.0
 *
 *   This extension is free software: you can redistribute it and/or modify
@@ -39,24 +39,18 @@ $document->addCustomTag ('<script type="text/javascript">jQuery.noConflict();</s
 $document->addScript( JURI::base(true).'/components/com_weever/assets/js/jquery-ui.js' );
 $document->addScript( JURI::base(true).'/components/com_weever/assets/js/jquery-impromptu.js' );
 $document->addScript( JURI::base(true).'/components/com_weever/assets/js/weever.js' );
-
-$cssFile = JURI::base(true).'/components/com_weever/assets/css/ui-lightness/jquery-ui.css';
-	$document->addStyleSheet($cssFile, 'text/css', null, array());
-
-$cssFile = JURI::base(true).'/components/com_weever/assets/css/jquery-impromptu.css';
-	$document->addStyleSheet($cssFile, 'text/css', null, array());
 	
 $document->addScript( JURI::base(true).'/components/com_weever/assets/js/theme.js' );
 
+$joomla = comWeeverHelper::joomlaVersion();
+
+if(substr($joomla,0,3) != '1.5')  // ### non-1.5 only
+	$jsJoomla = "Joomla.";
+else 
+	$jsJoomla = "";
+
 $pane = &JPane::getInstance('tabs');
 
-
-if(!$this->site_key)
-{
-
-	JError::raiseNotice(100, JText::_('WEEVER_NOTICE_NO_SITEKEY'));
-
-}
 
 $onlineSpan = "";
 $offlineSpan = "";
@@ -74,12 +68,42 @@ else
 
 ?>
 
-<div id="wx-app-status-button" <?php echo $offlineStatusClass; ?>><img id="wx-app-status-img" src="../media/com_weever/icon_live.png?nocache=<?php echo microtime(); ?>" />
-	
-	<span id="wx-app-status-online" <?php echo $onlineSpan; ?>><strong><?php echo JText::_('WEEVER_ONLINE'); ?></strong><br /><span style="color:#666; font-size:0.65em;"><?php echo JText::_('WEEVER_ONLINE_INFO'); ?></span></span>
-	
-	<span id="wx-app-status-offline" <?php echo $offlineSpan; ?>><strong><?php echo JText::_('WEEVER_OFFLINE'); ?></strong><br /><span style="color:#666; font-size:0.65em;"><?php echo JText::_('WEEVER_OFFLINE_INFO'); ?></span></span>
+<?php if($this->account->tier_number == 1) : ?>
+	<div style="position:absolute; right:64px; top:136px; margin:0 1em;">
+	<span style="float: right; font-size: 10px;">• Mobile Maps!<br>• Rebrand &amp; Resell<br>• Custom Domains</span>
+	<span style="float:right; line-height: 1.25em; font-size: 1em; text-align: right; margin:1px 1.5em 0 0;">Weever Apps Pro &amp; Premium<br><a id="headerbutton" href="http://weeverapps.com/pricing">Learn more</a></span></div>
 
+<?php elseif($this->account->tier_number == 2.1) : ?>
+	<span style="font-size: 1.5em; position: absolute; right: 64px; line-height: 1.25em; min-width: 348px; text-align: left; margin: 0pt; top: 136px;"><a href="http://weeverapps.com/pricing" style="float: left; margin: 0pt 1em;" id="headerbutton">Sign Up</a>Enjoying the Trial Features?<br><span style="font-size: 0.5em; margin: 0pt;">We add powerful new features each month.</span></span>
+	
+<?php endif; ?>
+
+
+<span id="wx-admin-topbar-left" class="wx-admin-topbar">
+			<a href="http://weeverapps.com/pricing">Plans &amp; Pricing</a> &nbsp; | &nbsp; <a href="http://twitter.com/weeverapps">Follow us on Twitter</a> &nbsp; | &nbsp; <a href="http://eepurl.com/fP-oD">Newsletter</a>
+
+</span>
+    
+
+<div id="wx-admin-topbar-right" class="wx-admin-topbar">
+
+<span <?php echo $offlineStatusClass; ?> id="wx-app-status-button">
+    
+  <span <?php echo $onlineSpan; ?> id="wx-app-status-online">
+	<span id="wx-status-current">Status &mdash; App is</span>
+    <span id="wx-status-boldonline"><strong>online</strong></span>
+    <span id="wx-status-current">for mobile visitors &mdash;</span>
+	<span id="wx-status-takeoffline">Take App Offline</span>
+  </span>
+    
+  <span <?php echo $offlineSpan; ?> id="wx-app-status-offline">
+    <span id="wx-status-current">Status &mdash; App is</span>
+    <span id="wx-status-boldoffline"><strong>offline</strong></span>
+    <span id="wx-status-current">for mobile visitors &mdash;</span>
+	<span id="wx-status-turnonline">Turn App Online</span>
+  </span>
+
+</span>
 </div>
 
 
@@ -89,17 +113,19 @@ else
     <div id='wx-modal-error-text'></div>
 </div>
 
-<form action='index.php' enctype='multipart/form-data' method='post' name='adminForm' id='adminForm'>
+<form action='index.php' enctype='multipart/form-data' method='post' name='adminForm' id='adminForm'>	
 	
 	<?php echo $pane->startPane('theme'); ?>
 	<?php echo $pane->startPanel(JText::_('WEEVER_BASIC_SETTINGS'), 'basic-settings'); ?>
-        <br/>
+        
+    <div class="wx-submitcontainer">
+            <a href="#" onclick="javascript:<?php echo $jsJoomla; ?>submitbutton('apply')"><button class="wx-button-submit wx-button-save"><img src="components/com_weever/assets/icons/check.png" style="width:1em;height:1em;padding-right: 0.625em;" /><?php echo JText::_('WEEVER_SAVE_BUTTON'); ?></button></a>
+    </div>    
         		
-	<div>
 	
 	<fieldset class='adminForm'>
 	<legend><?php echo JText::_('WEEVER_THEME_BASIC_SETTINGS'); ?></legend>
-
+	
 	<table class="admintable">
 
 	
@@ -116,7 +142,7 @@ else
 	<td class="key hasTip" title="<?php echo JText::_('WEEVER_TITLEBAR_TOOLTIP'); ?>"><?php echo JText::_('WEEVER_TITLEBAR_SOURCE'); ?></td>
 	<td>
 	<select name="titlebarSource" class="wx-220-select">
-	<option value="text" <?php echo ($this->theme->titlebarSource == 'text' ? "selected='selected'":""); ?>><?php echo JText::_('WEEVER_LOGO_TEXT'); ?> ("<?php echo strip_tags($this->titlebar_title); ?>")</option>
+	<option value="text" <?php echo ($this->theme->titlebarSource == 'text' ? "selected='selected'":""); ?>><?php echo JText::_('WEEVER_LOGO_TEXT'); ?> ("<?php echo strip_tags($this->theme->titlebar_title); ?>")</option>
 	<option value="image" <?php echo ($this->theme->titlebarSource == 'image' ? "selected='selected'":""); ?>><?php echo JText::_('WEEVER_LOGO_IMAGE'); ?></option>
 	<option value="html" <?php echo ($this->theme->titlebarSource == 'html' ? "selected='selected'":""); ?>><?php echo JText::_('WEEVER_CUSTOM_HTML'); ?></option>
 	</select>
@@ -125,23 +151,22 @@ else
 	
 	<tr>
 	<td class="key hasTip" title="<?php echo JText::_("WEEVER_TITLEBAR_TITLE_TOOLTIP"); ?>"><?php echo JText::_('WEEVER_TITLEBAR_TITLE'); ?></td>
-	<td><input type="text" name="titlebar_title" maxlength="35" style="width:250px;" value="<?php echo htmlentities($this->titlebar_title, ENT_QUOTES, "UTF-8"); ?>" /></td>	
+	<td><input type="text" name="titlebar_title" maxlength="35" style="width:250px;" value="<?php echo htmlentities($this->theme->titlebar_title, ENT_QUOTES, "UTF-8"); ?>" /></td>	
 	</tr>
 	
 	
 	<tr><td class="key hasTip" title="<?php echo JText::_("WEEVER_WEB_APP_NAME_TOOLTIP"); ?>"><?php echo JText::_('WEEVER_WEB_APP_NAME'); ?></td>
-	<td><input type="text" name="title" maxlength="10" style="width:90px;" value="<?php echo htmlentities($this->title, ENT_QUOTES, "UTF-8"); ?>" /></td>
+	<td><input type="text" name="title" maxlength="10" style="width:90px;" value="<?php echo htmlentities($this->theme->title, ENT_QUOTES, "UTF-8"); ?>" /></td>
 	</tr>
 	
 	
 	</table>
 	
 	</fieldset>
-	</div>
-	
+
 	
 	<div>
-		<fieldset>
+		<fieldset class='adminForm'>
 		<legend><?php echo JText::_('WEEVER_IMAGE_SETTINGS'); ?></legend>
 		<br/>
 		<div class="wx-theme-screen">
@@ -217,45 +242,105 @@ else
 		</fieldset>
 		</div>
 	
-
+	<?php echo $pane->endPanel(); ?>
+	<?php echo $pane->startPanel(JText::_("WEEVER_ADVANCED_LAUNCHSCREEN_SETTINGS"), 'advanced-launch-settings'); ?>
+	
+	
+	<div class="wx-submitcontainer">
+	        <a href="#" onclick="javascript:<?php echo $jsJoomla; ?>submitbutton('apply')"><button class="wx-button-submit wx-button-save"><img src="components/com_weever/assets/icons/check.png" style="width:1em;height:1em;padding-right: 0.625em;" /><?php echo JText::_('WEEVER_SAVE_BUTTON'); ?></button></a>
+	</div>    
+	    		
+	
+	<div>
+	
+		<fieldset class='adminForm'>
+		<legend><?php echo JText::_('WEEVER_LAUNCHSCREEN_SETTINGS'); ?></legend>
+		
+		<table class="admintable">
+		
+		<tr>
+		<td class="key hasTip" title="<?php echo JText::_('WEEVER_LAUNCH_ANIMATION_TOOLTIP'); ?>"><?php echo JText::_('WEEVER_LAUNCH_ANIMATION'); ?></td>
+		<td>
+		<select name="animation" class="wx-220-select">
+		<option value="fade" <?php echo ($this->theme->animation->type == 'fade' ? "selected='selected'":""); ?>><?php echo JText::_('WEEVER_LAUNCH_ANIMATION_FADE'); ?></option>
+		<option value="pop" <?php echo ($this->theme->animation->type == 'pop' ? "selected='selected'":""); ?>><?php echo JText::_('WEEVER_LAUNCH_ANIMATION_POP'); ?></option>
+		<option value="slide-left" <?php echo ($this->theme->animation->type == 'slide-left' ? "selected='selected'":""); ?>><?php echo JText::_('WEEVER_LAUNCH_ANIMATION_SLIDE_RIGHT'); ?></option>
+		<option value="slide-right" <?php echo ($this->theme->animation->type == 'slide-right' ? "selected='selected'":""); ?>><?php echo JText::_('WEEVER_LAUNCH_ANIMATION_SLIDE_LEFT'); ?></option>
+		<option value="slide-up" <?php echo ($this->theme->animation->type == 'slide-up' ? "selected='selected'":""); ?>><?php echo JText::_('WEEVER_LAUNCH_ANIMATION_SLIDE_DOWN'); ?></option>
+		<option value="slide-down" <?php echo ($this->theme->animation->type == 'slide-down' ? "selected='selected'":""); ?>><?php echo JText::_('WEEVER_LAUNCH_ANIMATION_SLIDE_UP'); ?></option>
+		<option value="none" <?php echo ($this->theme->animation->type == 'none' ? "selected='selected'":""); ?>><?php echo JText::_('WEEVER_LAUNCH_ANIMATION_NONE'); ?></option>
+		</select>
+		</td>
+		</tr>
+	
+		
+		<tr><td class="key hasTip" title="<?php echo JText::_('WEEVER_LAUNCH_ANIMATION_TIMEOUT_TOOLTIP'); ?>"><?php echo JText::_('WEEVER_LAUNCH_ANIMATION_TIMEOUT'); ?></td>
+		<td>
+		<select name="timeout" class="wx-220-select">
+		<option value="1"><?php echo JText::_('WEEVER_LAUNCH_ANIMATION_TIMEOUT_NONE'); ?></option>
+		<option value="325" <?php echo ($this->theme->animation->timeout == 325 ? "selected='selected'":""); ?>><?php echo JText::_('WEEVER_LAUNCH_ANIMATION_TIMEOUT_SHORTER'); ?></option>
+		<option value="650" <?php echo ($this->theme->animation->timeout == 650 ? "selected='selected'":""); ?>><?php echo JText::_('WEEVER_LAUNCH_ANIMATION_TIMEOUT_NORMAL'); ?></option>
+		<option value="995" <?php echo ($this->theme->animation->timeout == 995 ? "selected='selected'":""); ?>><?php echo JText::_('WEEVER_LAUNCH_ANIMATION_TIMEOUT_LONGER'); ?></option>
+		</select>
+		</td>
+		</tr>
+		
+		
+		
+		<tr><td class="key hasTip" title="<?php echo JText::_('WEEVER_LAUNCH_ANIMATION_DURATION_TOOLTIP'); ?>"><?php echo JText::_('WEEVER_LAUNCH_ANIMATION_DURATION'); ?></td>
+		<td>
+		<select name="duration" class="wx-220-select">
+		<option value="350"><?php echo JText::_('WEEVER_LAUNCH_ANIMATION_DURATION_VERY_SHORT'); ?></option>
+		<option value="850" <?php echo ($this->theme->animation->duration == 850 ? "selected='selected'":""); ?>><?php echo JText::_('WEEVER_LAUNCH_ANIMATION_DURATION_SHORTER'); ?></option>
+		<option value="1350" <?php echo ($this->theme->animation->duration == 1350 ? "selected='selected'":""); ?>><?php echo JText::_('WEEVER_LAUNCH_ANIMATION_DURATION_NORMAL'); ?></option>
+		<option value="1650" <?php echo ($this->theme->animation->duration == 1650 ? "selected='selected'":""); ?>><?php echo JText::_('WEEVER_LAUNCH_ANIMATION_DURATION_LONGER'); ?></option>
+		</select>
+		</td>
+		</tr>		
+		
+		<tr><td class="key hasTip" title="<?php echo JText::_('WEEVER_IOS_INSTALL_PROMPT_TOOLTIP'); ?>"><?php echo JText::_('WEEVER_IOS_INSTALL_PROMPT'); ?></td>
+		<td>
+		<select name="install_prompt">
+		<option value="0"><?php echo JText::_('NO'); ?></option>
+		<option value="1" <?php echo ($this->theme->animation->install_prompt ? "selected='selected'":""); ?>><?php echo JText::_('YES'); ?></option>
+		</select>
+		</td>
+		</tr>
+		
+		
+		</table>
+		
+		
+		</fieldset>
+	
+	
+	</div>
 
 	<?php echo $pane->endPanel(); ?>
 	<?php echo $pane->startPanel(JText::_("WEEVER_ADVANCED_THEME_SETTINGS"), 'advanced-settings'); ?>
+	
+	<div class="wx-submitcontainer">
+	        <a href="#" onclick="javascript:<?php echo $jsJoomla; ?>submitbutton('apply')"><button class="wx-button-submit wx-button-save"><img src="components/com_weever/assets/icons/check.png" style="width:1em;height:1em;padding-right: 0.625em;" /><?php echo JText::_('WEEVER_SAVE_BUTTON'); ?></button></a>
+	</div>    
+	    		
 
 <div>
 				
 	
-		<fieldset><legend><?php echo JText::_('WEEVER_CSS_TEMPLATE_OVERRIDES'); ?></legend>
+		<fieldset class='adminForm'><legend><?php echo JText::_('WEEVER_CSS_TEMPLATE_OVERRIDES'); ?></legend>
 		
-		<div><input type="checkbox" class="wx-check" value="1" id="wx-template-overrides" name="useCssOverride" <?php echo ($this->theme->useCssOverride == '1' ? "checked='checked'":""); ?> /><label for="wx-template-overrides" class="wx-check-label"><?php echo JText::_('WEEVER_USE_CSS_TEMPLATE_OVERRIDES'); ?></label></div>
+		<div style="margin-left:1em;"><input type="checkbox" class="wx-check" value="1" id="wx-template-overrides" name="useCssOverride" <?php echo ($this->theme->css->useCssOverride == '1' ? "checked='checked'":""); ?> /><label for="wx-template-overrides" class="wx-check-label"><?php echo JText::_('WEEVER_USE_CSS_TEMPLATE_OVERRIDES'); ?></label></div>
 		<p><?php echo JText::_('WEEVER_USE_CSS_TEMPLATE_OVERRIDES_DESCRIPTION'); ?></p>
 		<table class="admintable">
 			
 
 		
-		<tr><td class="key">&lt;a&gt; <?php echo JText::_('WEEVER_CSS_A_LINKS'); ?></td>
+		<tr><td class="key"><?php echo JText::_('WEEVER_CSS_OVERRIDES'); ?></td>
 		<td>
-		<textarea name="aLink"><?php echo $this->theme->aLink; ?></textarea>
+		<textarea name="css"><?php echo $this->theme->css->css; ?></textarea>
 		</td>
 		</tr>
-		
-		<tr><td class="key"><?php echo JText::_('WEEVER_CSS_TITLEBAR_SPAN'); ?> &lt;span&gt;</td>
-		<td>
-		<textarea name="spanLogo"><?php echo $this->theme->spanLogo; ?></textarea>
-		</td>
-		</tr>
-		
-		<tr><td class="key"><?php echo JText::_('WEEVER_CSS_BUTTONS'); ?></td>
-		<td>
-		<textarea name="contentButton"><?php echo $this->theme->contentButton; ?></textarea>
-		</td>
-		</tr>
-		
-		<tr><td class="key"><?php echo JText::_('WEEVER_CSS_BORDERS'); ?></td>
-		<td>
-		<textarea name="border"><?php echo $this->theme->border; ?></textarea>
-		</td>
-		</tr>		
+	
 	
 		</table>
 		
@@ -263,7 +348,7 @@ else
 	
 		
 		
-	<fieldset>
+	<fieldset class='adminForm'>
 	<legend><?php echo JText::_('WEEVER_TITLEBAR_CUSTOM_HTML'); ?></legend>
 	
 	<p><?php echo JText::_('WEEVER_TITLEBAR_CUSTOM_HTML_DESCRIPTION'); ?></p>

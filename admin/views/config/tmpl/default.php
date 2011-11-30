@@ -5,7 +5,7 @@
 *	(c) 2010-2011 Weever Apps Inc. <http://www.weeverapps.com/>
 *
 *	Author: 	Robert Gerald Porter (rob.porter@weever.ca)
-*	Version: 	1.0
+*	Version: 	1.2.2
 *   License: 	GPL v3.0
 *
 *   This extension is free software: you can redistribute it and/or modify
@@ -36,14 +36,15 @@ $document->addCustomTag ('<script type="text/javascript">jQuery.noConflict();</s
 $document->addScript( JURI::base(true).'/components/com_weever/assets/js/jquery-ui.js' );
 $document->addScript( JURI::base(true).'/components/com_weever/assets/js/jquery-impromptu.js' );
 $document->addScript( JURI::base(true).'/components/com_weever/assets/js/weever.js' );
-
-$cssFile = JURI::base(true).'/components/com_weever/assets/css/ui-lightness/jquery-ui.css';
-	$document->addStyleSheet($cssFile, 'text/css', null, array());
-
-$cssFile = JURI::base(true).'/components/com_weever/assets/css/jquery-impromptu.css';
-	$document->addStyleSheet($cssFile, 'text/css', null, array());
 	
 $document->addScript( JURI::base(true).'/components/com_weever/assets/js/config.js' );
+
+$joomla = comWeeverHelper::joomlaVersion();
+
+if(substr($joomla,0,3) != '1.5')  // ### non-1.5 only
+	$jsJoomla = "Joomla.";
+else 
+	$jsJoomla = "";
 
 $pane = &JPane::getInstance('tabs');
 
@@ -74,13 +75,43 @@ else
 ?>
 
 
-<div id="wx-app-status-button" <?php echo $offlineStatusClass; ?>><img id="wx-app-status-img" src="../media/com_weever/icon_live.png?nocache=<?php echo microtime(); ?>" />
-	
-	<span id="wx-app-status-online" <?php echo $onlineSpan; ?>><strong><?php echo JText::_('WEEVER_ONLINE'); ?></strong><br /><span style="color:#666; font-size:0.65em;"><?php echo JText::_('WEEVER_ONLINE_INFO'); ?></span></span>
-	
-	<span id="wx-app-status-offline" <?php echo $offlineSpan; ?>><strong><?php echo JText::_('WEEVER_OFFLINE'); ?></strong><br /><span style="color:#666; font-size:0.65em;"><?php echo JText::_('WEEVER_OFFLINE_INFO'); ?></span></span>
+<?php if($this->tier == 1) : ?>
+	<div style="position:absolute; right:64px; top:136px; margin:0 1em;">
+	<span style="float: right; font-size: 10px;">• Mobile Maps!<br>• Rebrand &amp; Resell<br>• Custom Domains</span>
+	<span style="float:right; line-height: 1.25em; font-size: 1em; text-align: right; margin:1px 1.5em 0 0;">Weever Apps Pro &amp; Premium<br><a id="headerbutton" href="http://weeverapps.com/pricing">Learn more</a></span></div>
 
+<?php elseif($this->tier == 2.1) : ?>
+	<span style="font-size: 1.5em; position: absolute; right: 64px; line-height: 1.25em; min-width: 348px; text-align: left; margin: 0pt; top: 136px;"><a href="http://weeverapps.com/pricing" style="float: left; margin: 0pt 1em;" id="headerbutton">Sign Up</a>Enjoying the Trial Features?<br><span style="font-size: 0.5em; margin: 0pt;">We add powerful new features each month.</span></span>
+	
+<?php endif; ?>
+
+<span id="wx-admin-topbar-left" class="wx-admin-topbar">
+			<a href="http://weeverapps.com/pricing">Plans &amp; Pricing</a> &nbsp; | &nbsp; <a href="http://twitter.com/weeverapps">Follow us on Twitter</a> &nbsp; | &nbsp; <a href="http://eepurl.com/fP-oD">Newsletter</a>
+
+</span>
+    
+
+<div id="wx-admin-topbar-right" class="wx-admin-topbar">
+
+<span <?php echo $offlineStatusClass; ?> id="wx-app-status-button">
+    
+  <span <?php echo $onlineSpan; ?> id="wx-app-status-online">
+	<span id="wx-status-current">Status &mdash; App is</span>
+    <span id="wx-status-boldonline"><strong>online</strong></span>
+    <span id="wx-status-current">for mobile visitors &mdash;</span>
+	<span id="wx-status-takeoffline">Take App Offline</span>
+  </span>
+    
+  <span <?php echo $offlineSpan; ?> id="wx-app-status-offline">
+    <span id="wx-status-current">Status &mdash; App is</span>
+    <span id="wx-status-boldoffline"><strong>offline</strong></span>
+    <span id="wx-status-current">for mobile visitors &mdash;</span>
+	<span id="wx-status-turnonline">Turn App Online</span>
+  </span>
+
+</span>
 </div>
+
 
 <div id='wx-modal-loading'>
     <div id='wx-modal-loading-text'></div>
@@ -95,11 +126,17 @@ else
 	
 	<?php echo $pane->startPane('theme'); ?>
 	<?php echo $pane->startPanel(JText::_("WEEVER_BASIC_SETTINGS"), 'basic-settings'); ?>
+	
+	<div class="wx-submitcontainer">
+	        <a href="#" onclick="javascript:<?php echo $jsJoomla; ?>submitbutton('apply')"><button class="wx-button-submit wx-button-save"><img src="components/com_weever/assets/icons/check.png" style="width:1em;height:1em;padding-right: 0.625em;" /><?php echo JText::_('WEEVER_SAVE_BUTTON'); ?></button></a>
+	</div>   
+	
+	
 	<div>
 	
 	
 	
-		<fieldset><legend><?php echo JText::_('WEEVER_CONFIG_SIMPLE_DEVICE_SETTINGS'); ?></legend>
+		<fieldset class='adminForm'><legend><?php echo JText::_('WEEVER_CONFIG_SIMPLE_DEVICE_SETTINGS'); ?></legend>
 			
 		<table class="admintable">
 		
@@ -179,11 +216,16 @@ else
 		
 			<?php echo $pane->endPanel(); ?>
 			<?php echo $pane->startPanel(JText::_("WEEVER_ADVANCED_DEVICE_SETTINGS_TAB"), 'advanced-settings'); ?>
+			
+			<div class="wx-submitcontainer">
+			        <a href="#" onclick="javascript:<?php echo $jsJoomla; ?>submitbutton('apply')"><button class="wx-button-submit wx-button-save"><img src="components/com_weever/assets/icons/check.png" style="width:1em;height:1em;padding-right: 0.625em;" /><?php echo JText::_('WEEVER_SAVE_BUTTON'); ?></button></a>
+			</div>   
+			
 		<div>
 	
-		<fieldset><legend><?php echo JText::_('WEEVER_CONFIG_ADVANCED_DEVICE_SETTINGS'); ?></legend>
+		<fieldset class='adminForm'><legend><?php echo JText::_('WEEVER_CONFIG_ADVANCED_DEVICE_SETTINGS'); ?></legend>
 		
-		<div><input type="checkbox" value="1" class="wx-check" name="granular_devices" id="wx-granular-devices" <?php echo $this->granular; ?> /><label class="wx-check-label" for="wx-granular-devices"><?php echo JText::_('WEEVER_CONFIG_USE_ADVANCED_DEVICE_SETTINGS'); ?></label></div>
+		<div style="margin-left:1em;"><input type="checkbox" value="1" class="wx-check" name="granular_devices" id="wx-granular-devices" <?php echo $this->granular; ?> /><label class="wx-check-label" for="wx-granular-devices"><?php echo JText::_('WEEVER_CONFIG_USE_ADVANCED_DEVICE_SETTINGS'); ?></label></div>
 		
 		<table class="admintable">
 		

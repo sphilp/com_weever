@@ -4,7 +4,7 @@
 *	(c) 2010-2011 Weever Apps Inc. <http://www.weeverapps.com/>
 *
 *	Author: 	Robert Gerald Porter (rob.porter@weever.ca)
-*	Version: 	0.9
+*	Version: 	1.1
 *   License: 	GPL v3.0
 *
 *   This extension is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 defined('_JEXEC') or die;
 
 ?>
-<div class="wx-add-ui">
+<div class="wx-add-ui formspacer">
 	<div class='wx-add-item-listingcomponent wx-add-item-dropdown'>
 		<select id='wx-select-listingcomponent'>
 			<option value='0'>(Add an unsupported component)</option>

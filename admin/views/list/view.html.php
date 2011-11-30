@@ -5,7 +5,7 @@
 *	(c) 2010-2011 Weever Apps Inc. <http://www.weeverapps.com/>
 *
 *	Author: 	Robert Gerald Porter (rob.porter@weever.ca)
-*	Version: 	1.0
+*	Version: 	1.2.3
 *   License: 	GPL v3.0
 *
 *   This extension is free software: you can redistribute it and/or modify
@@ -48,6 +48,8 @@ class WeeverViewList extends JView
 		$appData = $this->get('appdata');
 		$tabRows = array();
 		
+		$this->assignRef('tier', $appData->config->tier);
+
 		foreach((array)$appData->tabs as $k=>$v)
 		{
 			
@@ -58,6 +60,7 @@ class WeeverViewList extends JView
 		
 		$this->assignRef('tabRows', $tabRows);
 		$this->assignRef('blogRows', $blogRows);
+		$this->assignRef('directoryRows', $directoryRows);
 		$this->assignRef('pageRows', $pageRows);
 		$this->assignRef('componentRows', $componentRows);
 		$this->assignRef('listingComponentRows', $listingComponentRows);
@@ -69,24 +72,44 @@ class WeeverViewList extends JView
 		$this->assignRef('aboutappRows', $aboutappRows);
 		$this->assignRef('panelRows', $panelRows);
 		$this->assignRef('calendarRows', $calendarRows);
+		$this->assignRef('mapRows', $mapRows);
+		
+		if( comWeeverHelper::componentExists("com_k2") )
+		{
+		
+			$blogK2CategoryDropdown =& $this->get('blogk2categorydropdown');
+			$mapK2CategoryDropdown =& $this->get('mapk2categorydropdown');
+			$directoryK2CategoryDropdown =& $this->get('directoryk2categorydropdown');
+			$pageK2CategoryDropdown =& $this->get('pagek2categorydropdown');
+	
+		}
+		else 
+		{
+		
+			$blogK2CategoryDropdown = ""; $mapK2CategoryDropdown=""; 
+			$pageK2CategoryDropdown=""; $directoryK2CategoryDropdown = "";
+		
+		}
+		
+		$this->assignRef('blogK2CategoryDropdown',$blogK2CategoryDropdown);
+		$this->assignRef('mapK2CategoryDropdown',$mapK2CategoryDropdown);
+		$this->assignRef('directoryK2CategoryDropdown',$directoryK2CategoryDropdown);
+		$this->assignRef('pageK2CategoryDropdown',$pageK2CategoryDropdown);
 		
 		$blogMenuDropdown =& $this->get('blogmenudropdown');
 		$this->assignRef('blogMenuDropdown',$blogMenuDropdown);
 		
+		$directoryJCategoryDropdown =& $this->get('directoryjcategorydropdown');
+		$this->assignRef('directoryJCategoryDropdown',$directoryJCategoryDropdown);
+		
 		$blogJCategoryDropdown =& $this->get('blogjcategorydropdown');
 		$this->assignRef('blogJCategoryDropdown',$blogJCategoryDropdown);
-		
-		$blogK2CategoryDropdown =& $this->get('blogk2categorydropdown');
-		$this->assignRef('blogK2CategoryDropdown',$blogK2CategoryDropdown);
 
 		$pageMenuDropdown =& $this->get('pagemenudropdown');
 		$this->assignRef('pageMenuDropdown',$pageMenuDropdown);
 		
 		$pageJCategoryDropdown =& $this->get('pagejcategorydropdown');
 		$this->assignRef('pageJCategoryDropdown',$pageJCategoryDropdown);
-		
-		$pageK2CategoryDropdown =& $this->get('pagek2categorydropdown');
-		$this->assignRef('pageK2CategoryDropdown',$pageK2CategoryDropdown);
 		
 		$jContactDropdown =& $this->get('jcontactdropdown');
 		$this->assignRef('jContactDropdown',$jContactDropdown);
@@ -110,8 +133,7 @@ class WeeverViewList extends JView
 		$row->load(13);
 		$this->assign('about_app_name', $row->setting);
 
-		$row->load(100);
-		$theme = json_decode($row->setting);
+		$theme = $this->get('themedata');
 		$this->assignRef('theme',$theme);
 		
 		comWeeverHelper::getJsStrings();			
@@ -149,35 +171,31 @@ class WeeverViewList extends JView
 	    
 	    $this->assignRef('timezone_ids', $options);
 	    $this->assignRef('timezone_times', $times);
+	    
+	    $version = new JVersion;
+	    $joomla = $version->getShortVersion();
+	    
+	    if(substr($joomla,0,3) == '1.5')  // ### 1.5 only
+	    {
+	    	$link = 'index.php?option=com_content&amp;task=element&amp;tmpl=component&amp;object=id';
+	    	$this->assignRef('jArticleLink', $link);
+	    }
+	    else 
+	    {
+	    	$link = 'index.php?option=com_content&amp;task=element&amp;tmpl=component&amp;layout=modal&amp;function=jSelectArticleNew';
+	    	$this->assignRef('jArticleLink', $link);	    
+	    }
 	
 		JSubMenuHelper::addEntry(JText::_('WEEVER_TAB_ITEMS'), 'index.php?option=com_weever', true);
 		JSubMenuHelper::addEntry(JText::_('WEEVER_THEMING'), 'index.php?option=com_weever&view=theme&task=theme', false);
 		JSubMenuHelper::addEntry(JText::_('WEEVER_CONFIGURATION'), 'index.php?option=com_weever&view=config&task=config', false);
 		JSubMenuHelper::addEntry(JText::_('WEEVER_ACCOUNT'), 'index.php?option=com_weever&view=account&task=account', false);
+		JSubMenuHelper::addEntry(JText::_('WEEVER_SUPPORT_TAB'), 'index.php?option=com_weever&view=support&task=support', false);
 
 
 		parent::display($tpl);
 	
 	}
-	
-	// weird results, so not using yet..
-	/*
-	public function formatOffset($offset) 
-	{
-
-        $hours = $offset / 3600;
-        $remainder = $offset % 3600;
-        $sign = $hours > 0 ? '+' : '-';
-        $hour = (int) abs($hours);
-        $minutes = (int) abs($remainder / 60);
-
-        if ($hour == 0 AND $minutes == 0) {
-            $sign = ' ';
-        }
-        return 'GMT' . $sign . str_pad($hour, 2, '0', STR_PAD_LEFT) 
-                .':'. str_pad($minutes,2, '0');
-	
-	}*/
 	
 
 }
